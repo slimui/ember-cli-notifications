@@ -1,3 +1,36 @@
+### 3.2.0
+
+* [#73](https://github.com/Blooie/ember-cli-notifications/pull/73) [ENHANCEMENT] Added ability to provide a click handler to the notification.
+* [#75](https://github.com/Blooie/ember-cli-notifications/pull/75) [ENHANCEMENT] Updating ember-cli to 1.13.15.
+
+### 3.1.1
+
+* [#71](https://github.com/Blooie/ember-cli-notifications/pull/71) [ENHANCEMENT] Allow global auto clear option for notification messages.
+
+### 3.1.0
+
+* [#69](https://github.com/Blooie/ember-cli-notifications/pull/69) [ENHANCEMENT] Adding helper methods for each notification type.
+
+### 3.0.1
+
+* [#67](https://github.com/Blooie/ember-cli-notifications/pull/67) [BUGFIX] Fixing asset issues with demo/dummy app.
+* [#67](https://github.com/Blooie/ember-cli-notifications/pull/67) [ENHANCEMENT] Always default to Font Awesome icons, unless Bootstrap specified.
+* [#67](https://github.com/Blooie/ember-cli-notifications/pull/67) [ENHANCEMENT] Bumping ember-cli-sass.
+
+### 3.0.0
+
+* [#64](https://github.com/Blooie/ember-cli-notifications/pull/64) [ENHANCEMENT] Using ES6 syntax.
+* [#65](https://github.com/Blooie/ember-cli-notifications/pull/65) [ENHANCEMENT] Pause auto clearing notifications on hover.
+* [#66](https://github.com/Blooie/ember-cli-notifications/pull/66) [ENHANCEMENT] New component helper for simplifying installs.
+
+### 2.1.4
+
+* [#63](https://github.com/Blooie/ember-cli-notifications/pull/63) [BUGFIX] Adding close icon for when Bootstrap theme used.
+
+### 2.1.3
+
+* [#59](https://github.com/Blooie/ember-cli-notifications/pull/56) [BUGFIX] Fixing initializer deprecation.
+
 ### 2.1.2
 
 * [#56](https://github.com/Blooie/ember-cli-notifications/pull/56) [ENHANCEMENT] Allow injection into services.

@@ -1,6 +1,6 @@
 # ember-cli-notifications
 
-[![NPM package](https://img.shields.io/npm/v/ember-cli-notifications.svg)](https://www.npmjs.com/package/ember-cli-notifications) [![Build Status](https://img.shields.io/travis/Blooie/ember-cli-notifications.svg)](https://travis-ci.org/Blooie/ember-cli-notifications) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-notifications.svg)](http://emberobserver.com/addons/ember-cli-notifications)
+[![NPM package](https://img.shields.io/npm/v/ember-cli-notifications.svg)](https://www.npmjs.com/package/ember-cli-notifications) [![Build Status](https://img.shields.io/travis/stonecircle/ember-cli-notifications.svg)](https://travis-ci.org/stonecircle/ember-cli-notifications) [![Ember Observer Score](http://emberobserver.com/badges/ember-cli-notifications.svg)](http://emberobserver.com/addons/ember-cli-notifications)
 
 
 An [Ember CLI] addon that adds [Atom] inspired notification messages to your app.
@@ -15,19 +15,26 @@ ember install ember-cli-notifications
 
 ## Usage
 
-From within your controller or route.
+In v3.1.0 we simplified the API for calling notifications in your Ember application. These were **not** breaking changes and using the pre v3.1.0 API will still work today.
+
+The old API documentation can be viewed [here](https://github.com/Blooie/ember-cli-notifications/blob/v3.0.0/README.md).
 
 ### Add a notification
 
+There are four types of notification available.
+
 ```js
-actions: {
-  saveOptions() {
-    this.notifications.addNotification({
-      message: 'Saved successfully!',
-      type: 'success'
-    });
-  }
-}
+// Info
+this.notifications.info('You have one unread message');
+
+// Error
+this.notifications.error('Something went wrong');
+
+// Success
+this.notifications.success('Saved successfully!');
+
+// Warning
+this.notifications.warning('You have unsaved changes');
 ```
 
 ### Add a notification with autoClear
@@ -37,22 +44,37 @@ actions: {
   saveOptions() {
     this.get('model').save()
     .then(() => {
-      this.notifications.addNotification({
-        message: 'Successfully saved your settings',
-        type: 'success',
+      this.notifications.success('Successfully saved your settings', {
         autoClear: true
       });
     }),
     .catch((err) => {
-      this.notifications.addNotification({
-        message: 'Something went wrong'
-        type: 'error'
-      });
+      this.notifications.error('Something went wrong');
     });
   }
 }
 ```
 
+### Add a clickable notification with callback
+```js
+actions: {
+  saveOptions() {
+    this.get('model').save()
+    .then(() => {
+      this.notifications.success('Successfully saved your settings', {
+        autoClear: true
+      });
+    }),
+    .catch((err) => {
+      this.notifications.error('Something went wrong - click to retry.', {
+        onClick: (notification) => {
+            this.get('model').save();
+        }
+      });
+    });
+  }
+}
+```
 ### Remove all active notifications using clearAll() before adding a new notification
 
 ```js
@@ -61,10 +83,7 @@ actions: {
     this.get('model').save()
     .then(() => {
       this.notifications.clearAll();
-      this.notifications.addNotification({
-        message: 'Successfully saved your settings',
-        type: 'success'
-      });
+      this.notifications.success('Successfully saved your settings');
     })
   }
 }
@@ -78,16 +97,20 @@ This code only needs to be called in one place such as your application route.
 this.notifications.setDefaultClearNotification(1000);
 ```
 
+### Set a global, default auto clear option
+
+This code only needs to be called in one place such as your application route.
+
+```js
+this.notifications.setDefaultAutoClear(true);
+```
+
 ### Template
 
 Include this snippet in your Handlebars template to display the notifications.
 
 ```hbs
-<div class="c-notification__container">
-  {{#each notifications as |notification|}}
-    {{notification-message notification=notification}}
-  {{/each}}
-</div>
+{{notification-container notifications=notifications}}
 ```
 
 ## Icons
@@ -116,40 +139,6 @@ var ENV = {
 
 ## Options
 
-### Message
-
-The string that is displayed within the notification. This is the only **required** option.
-
-#### Example
-
-```js
-this.notifications.addNotification({
-  message: 'Successfully saved your settings'
-});
-```
-
-### Type
-
-Define the type of notification that should be presented. This sets the CSS of the notification, as well as the [Font Awesome] icon.
-
-*Default value is `info`*
-
-#### Options
-
-* `error`
-* `info`
-* `success`
-* `warning`
-
-#### Example
-
-```js
-this.notifications.addNotification({
-  message: 'Successfully saved your settings',
-  type: 'success'
-});
-```
-
 ### Auto clear
 
 Boolean value that defines whether the notification message dismisses automatically, or whether it needs to be dismissed manually by the user.
@@ -158,17 +147,10 @@ If true, inherits the default `clearDuration` value unless specified.
 
 *Default value is `false`*
 
-#### Options
-
-* `false`
-* `true`
-
 #### Example
 
 ```js
-this.notifications.addNotification({
-  message: 'Successfully saved your settings',
-  type: 'success',
+this.notifications.success('Successfully saved your settings', {
   autoClear: true
 });
 ```
@@ -182,9 +164,7 @@ The time in milliseconds that the notification will automatically dismiss after,
 #### Example
 
 ```js
-this.notifications.addNotification({
-  message: 'Successfully saved your settings',
-  type: 'success',
+this.notifications.success('Successfully saved your settings', {
   autoClear: true,
   clearDuration: 1200
 });
@@ -192,7 +172,7 @@ this.notifications.addNotification({
 
 [Ember CLI]: http://ember-cli.com
 [Atom]: https://github.com/atom/notifications
-[demo]: http://blooie.github.io/ember-cli-notifications
+[demo]: http://stonecircle.github.io/ember-cli-notifications
 [broccoli-sass]: https://www.npmjs.com/package/broccoli-sass
 [Font Awesome]: http://fortawesome.github.io/Font-Awesome
 [Glyphicons]: http://getbootstrap.com/components/#glyphicons
